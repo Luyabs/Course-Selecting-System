@@ -1,10 +1,17 @@
 #include "Course Selecting System.h"
 using namespace std;
 
-//!!! ÔÚÕâÀïÓÃswitch-caseĞ´¸ö¹¦ÄÜ²Ëµ¥  ¿¼ÂÇÔÚ´ò¿ª¹¦ÄÜ²Ëµ¥Ç°ĞèÒª×Ô¶¯ÓÃÎÄ¼şÁ÷ÊäÈë×Ô¶¯¼ÓÔØÊı¾İ
+//!!! åœ¨è¿™é‡Œç”¨switch-caseå†™ä¸ªåŠŸèƒ½èœå•  è€ƒè™‘åœ¨æ‰“å¼€åŠŸèƒ½èœå•å‰éœ€è¦è‡ªåŠ¨ç”¨æ–‡ä»¶æµè¾“å…¥è‡ªåŠ¨åŠ è½½æ•°æ®
 
 int main()
 {
-	cout << "ÇëÔÄ¶ÁCourse Selecting System.hÎÄ¼ş" << endl;
+	LinkList<Student> Students;
+	Students.Load(datafile1);
+	Students.Show();
+	system("Pause");
+	LinkList<Course> Courses;
+	Courses.Load(datafile2);
+	Courses.Show();
+	cout << "è¯·é˜…è¯»Course Selecting System.hæ–‡ä»¶" << endl;
 	return 0;
 }
