@@ -22,6 +22,7 @@ public:
 	void PutList(ostream& out) const;			// 输出链表所有结点的数据到引用out所绑定的ostream对象，该对象可以是cout，也可以是文件对象
 	void GetList(istream& in, int n);					// 从输入设备in获取数据，形成链表。
 	void Save(const char* filename);				// 将链表所有结点的数据写入指定文件
+	void Show();									//显示数据
 	void Load(const char* filename);				// 从指定文件中读取数据，构造链表
 	int GetLength() const;				// 求单链表长度			 
 	bool IsEmpty() const;	 			// 判断单链表是否为空
@@ -68,6 +69,12 @@ void LinkList<T>::Save(const char* filename)		// 将链表所有结点的数据�
 		return 0;
 	this->PutList(outfile);
 	outfile.close();
+}
+
+template <typename T>
+void LinkList<T>::Show()
+{
+	this->PutList(cout);
 }
 
 template <typename T>
