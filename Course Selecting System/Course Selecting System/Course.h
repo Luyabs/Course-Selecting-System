@@ -3,13 +3,39 @@
 
 struct Course
 {
-	int id;
+	std::string id;
 	std::string name;
-	int	size;		//±¾¿Î³Ìµ±Ç°Ñ¡¿ÎÈËÊı
-	int maxsize;	//±¾¿Î³Ì×î´óÑ¡¿ÎÈËÊı(ÈİÁ¿)
+	int	size;		//æœ¬è¯¾ç¨‹å½“å‰é€‰è¯¾äººæ•°
+	int maxsize;	//æœ¬è¯¾ç¨‹æœ€å¤§é€‰è¯¾äººæ•°(å®¹é‡)
 
-	Course();							// ÎŞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	Course(int Id, int Name, int Size, int maxsize);	// ÓĞ²ÎÊıµÄ¹¹Ôìº¯Êı
+	Course();							// æ— å‚æ•°çš„æ„é€ å‡½æ•°
+	Course(string Id, string Name, int Size, int maxsize);	// æœ‰å‚æ•°çš„æ„é€ å‡½æ•°
+
+	friend ostream& operator <<(ostream& fout, const Course& c);
+	friend istream& operator >>(istream& fin, Course& c);
 };
 
-//! °ÑÉÏÃæÁ½¸ö³ÉÔ±º¯ÊıÊµÏÖÒ»ÏÂ
+Course::Course():id(""), name(""), size(0), maxsize(0)
+{
+}
+
+Course::Course(string Id, string Name, int Size, int Maxsize) :id(Id),name(Name),size(Size),maxsize(Maxsize)
+{
+}
+
+ostream& operator<<(ostream& fout, const Course& c)
+{
+	fout << c.id << '\t'
+		<< c.name << '\t' << c.size << '\t' << c.maxsize << endl;
+	return fout;
+}
+
+istream& operator>>(istream& fin, Course& c)
+{
+	char str[100];
+	fin.getline(str, 100, '\t'); c.id = str;
+	fin.getline(str, 100, '\t'); c.name = str;
+	fin.getline(str, 100, '\t'); c.size = atoi(str);
+	fin.getline(str, 100); c.maxsize = atoi(str);
+	return fin;
+}
