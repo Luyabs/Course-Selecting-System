@@ -8,6 +8,16 @@ Student::Student(int Id, string Name) : id(Id), name(Name)
 {
 }
 
+string Student::GetName() const
+{
+	return name;
+}
+
+int Student::GetId() const
+{
+	return id;
+}
+
 ostream& operator<<(ostream& fout, const Student& s)
 {
 	fout << s.id << '\t' << s.name ;
@@ -20,4 +30,9 @@ istream& operator>>(istream& fin, Student& s)
 	fin.getline(str, 80, '\t'); s.id = atoi(str);
 	fin.getline(str, 80); s.name = str;
 	return fin;
+}
+
+bool operator!=(Student a,Student b)
+{
+	return !(a.id == b.id || a.name == b.name);
 }
