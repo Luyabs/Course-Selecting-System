@@ -1,114 +1,114 @@
 #ifndef __CROSS_LIST_H__
 #define __CROSS_LIST_H__
 
-#include "Assistance.h"				// ¸¨ÖúÈí¼ş°ü
-#include "crossnode.h"				// Ê®×ÖÁ´±íÈıÔª×é½áµãÀà
-#include "triple.h"					// ÈıÔª×éÀà
+#include "Assistance.h"				// è¾…åŠ©è½¯ä»¶åŒ…
+#include "crossnode.h"				// åå­—é“¾è¡¨ä¸‰å…ƒç»„ç»“ç‚¹ç±»
+#include "triple.h"					// ä¸‰å…ƒç»„ç±»
 
-// Ï¡Êè¾ØÕóÊ®×ÖÁ´±íÀà
+// ç¨€ç–çŸ©é˜µåå­—é“¾è¡¨ç±»
 template<class ElemType>
 class CrossList
 {
 protected:
-//  Ï¡Êè¾ØÕóÊ®×ÖÁ´µÄÊı¾İ³ÉÔ±:
-	CrossNode<ElemType> **rowHead, **colHead;// ĞĞÁĞÁ´±í±íÍ·Êı×é
-	int rows, cols, num;			// Ï¡Êè¾ØÕóµÄĞĞÊı,ÁĞÊı¼°·ÇÁãÔª¸öÊı
+//  ç¨€ç–çŸ©é˜µåå­—é“¾çš„æ•°æ®æˆå‘˜:
+	CrossNode<ElemType> **rowHead, **colHead;// è¡Œåˆ—é“¾è¡¨è¡¨å¤´æ•°ç»„
+	int rows, cols, num;			// ç¨€ç–çŸ©é˜µçš„è¡Œæ•°,åˆ—æ•°åŠéé›¶å…ƒä¸ªæ•°
 
 public:
-// Ï¡Êè¾ØÕóÊ®×ÖÁ´µÄ·½·¨ÉùÃ÷:
-	CrossList(int rs = DEFAULT_SIZE, int cs = DEFAULT_SIZE);
-		// ¹¹ÔìÒ»¸örsĞĞcsÁĞµÄ¿ÕÏ¡Êè¾ØÕó
-	~CrossList();				// Îö¹¹º¯Êı
-	void Clear();					// Çå¿ÕÏ¡Êè¾ØÕó
-	inline int GetRows() const { return rows; };			// ·µ»ØÏ¡Êè¾ØÕóĞĞÊı
-    inline int GetCols() const { return cols; };			// ·µ»ØÏ¡Êè¾ØÕóÁĞÊı
-    inline int GetNum() const { return num; };			// ·µ»ØÏ¡Êè¾ØÕó·ÇÁãÔª¸öÊı
-	Status SetElem(int r, int c, const ElemType &v);	// ÉèÖÃÖ¸¶¨Î»ÖÃµÄÔªËØÖµ
-	Status GetElem(int r, int c, ElemType &v) const;			// È¡Ö¸¶¨Î»ÖÃµÄÔªËØÖµ
-	CrossList(const CrossList<ElemType> &b);	// ¸´ÖÆ¹¹Ôìº¯Êı
+// ç¨€ç–çŸ©é˜µåå­—é“¾çš„æ–¹æ³•å£°æ˜:
+	CrossList(int rs = 900, int cs = 100);
+		// æ„é€ ä¸€ä¸ªrsè¡Œcsåˆ—çš„ç©ºç¨€ç–çŸ©é˜µ
+	~CrossList();				// ææ„å‡½æ•°
+	void Clear();					// æ¸…ç©ºç¨€ç–çŸ©é˜µ
+	inline int GetRows() const { return rows; };			// è¿”å›ç¨€ç–çŸ©é˜µè¡Œæ•°
+    inline int GetCols() const { return cols; };			// è¿”å›ç¨€ç–çŸ©é˜µåˆ—æ•°
+    inline int GetNum() const { return num; };			// è¿”å›ç¨€ç–çŸ©é˜µéé›¶å…ƒä¸ªæ•°
+	Status SetElem(int r, int c, const ElemType &v);	// è®¾ç½®æŒ‡å®šä½ç½®çš„å…ƒç´ å€¼
+	Status GetElem(int r, int c, ElemType &v) const;			// å–æŒ‡å®šä½ç½®çš„å…ƒç´ å€¼
+	CrossList(const CrossList<ElemType> &b);	// å¤åˆ¶æ„é€ å‡½æ•°
 	CrossList<ElemType> &operator =(const CrossList<ElemType> &b); 
-		// ÖØÔØ¸³ÖµÔËËã·û 
+		// é‡è½½èµ‹å€¼è¿ç®—ç¬¦ 
 	CrossList<ElemType> operator +(const CrossList<ElemType> &b) const;
-		// ÖØÔØ¼Ó·¨ÔËËã·û 
+		// é‡è½½åŠ æ³•è¿ç®—ç¬¦ 
 
-	void Show(ostream& out = cout) const;							//ÒÔ¾ØÕóĞÎÊ½Êä³ö
-	void Input(istream& in = cin);							//ÊäÈëµ½¾ØÕó
-	void Save(const char* filename) const;	//ÎÄ¼şÊä³ö
-	void Load(const char* filename);		//ÎÄ¼ş¶ÁÈ¡
+	void Show(ostream& out = cout) const;							//ä»¥çŸ©é˜µå½¢å¼è¾“å‡º
+	void Input(istream& in = cin);							//è¾“å…¥åˆ°çŸ©é˜µ
+	void Save(const char* filename) const;	//æ–‡ä»¶è¾“å‡º
+	void Load(const char* filename);		//æ–‡ä»¶è¯»å–
 
 };
 
-template<class ElemType> ostream& operator <<(ostream& out, const CrossList<ElemType>& list);	//Êä³öÁ÷ÖØÔØ
-template<class ElemType> istream& operator >>(istream& in, CrossList<ElemType>& list);	//ÊäÈëÁ÷ÖØÔØ
+template<class ElemType> ostream& operator <<(ostream& out, const CrossList<ElemType>& list);	//è¾“å‡ºæµé‡è½½
+template<class ElemType> istream& operator >>(istream& in, CrossList<ElemType>& list);	//è¾“å…¥æµé‡è½½
 
 
 
-// Ï¡Êè¾ØÕóÊ®×ÖÁ´±íÀàµÄÊµÏÖ²¿·Ö
+// ç¨€ç–çŸ©é˜µåå­—é“¾è¡¨ç±»çš„å®ç°éƒ¨åˆ†
 template <class ElemType>
 CrossList<ElemType>::CrossList(int rs, int cs)
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸örsĞĞcsÁĞµÄ¿ÕÏ¡Êè¾ØÕó
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªrsè¡Œcsåˆ—çš„ç©ºç¨€ç–çŸ©é˜µ
 {
 	if (rs < 1 || cs < 1)							
-		throw Error("ĞĞÊı»òÁĞÊıÎŞĞ§!");	// Å×³öÒì³£
-	rows = rs;							// ĞĞÊı
-	cols = cs;							// ÁĞÊı
-	num = 0;							// ·ÇÁãÔª¸öÊı
-	rowHead = new CrossNode<ElemType> *[rows];	// ·ÖÅäĞĞÁ´±í±íÍ·Êı×é´æ´¢¿Õ¼ä
-	colHead = new CrossNode<ElemType> *[cols];	// ·ÖÅäĞĞÁ´±í±íÍ·Êı×é´æ´¢¿Õ¼ä
+		throw Error("è¡Œæ•°æˆ–åˆ—æ•°æ— æ•ˆ!");	// æŠ›å‡ºå¼‚å¸¸
+	rows = rs;							// è¡Œæ•°
+	cols = cs;							// åˆ—æ•°
+	num = 0;							// éé›¶å…ƒä¸ªæ•°
+	rowHead = new CrossNode<ElemType> *[rows];	// åˆ†é…è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„å­˜å‚¨ç©ºé—´
+	colHead = new CrossNode<ElemType> *[cols];	// åˆ†é…è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„å­˜å‚¨ç©ºé—´
 	for (int row = 0; row < rows; row++) 
-		rowHead[row] = NULL;			// ³õÊ¼»¯ĞĞÁ´±í±íÍ·Êı×é
+		rowHead[row] = NULL;			// åˆå§‹åŒ–è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
 	for (int col = 0; col < cols; col++) 
-		colHead[col] = NULL;			// ³õÊ¼»¯ĞĞÁ´±í±íÍ·Êı×é
+		colHead[col] = NULL;			// åˆå§‹åŒ–è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
 }
 
 template <class ElemType>
 CrossList<ElemType>::~CrossList()
-// ²Ù×÷½á¹û£ºÏ¡Êè¾ØÕóËùÕ¼ÓÃ¿Õ¼ä
+// æ“ä½œç»“æœï¼šç¨€ç–çŸ©é˜µæ‰€å ç”¨ç©ºé—´
 {
 	Clear();
-	delete []rowHead;					// ÊÍ·ÅĞĞÁ´±í±íÍ·Êı×é
-	delete []colHead;					// ÊÍ·ÅÁĞÁ´±í±íÍ·Êı×é
+	delete []rowHead;					// é‡Šæ”¾è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
+	delete []colHead;					// é‡Šæ”¾åˆ—é“¾è¡¨è¡¨å¤´æ•°ç»„
 }
 
 template <class ElemType>
 void CrossList<ElemType>::Clear()
-// ²Ù×÷½á¹û£ºÇå¿ÕÏ¡Êè¾ØÕó
+// æ“ä½œç»“æœï¼šæ¸…ç©ºç¨€ç–çŸ©é˜µ
 {
     CrossNode<ElemType> *p;
 	for (int i = 0; i < rows; i++)	
-		while (rowHead[i] != NULL)	{   // ÊÍ·ÅµÚrowĞĞµÄ½áµãËùµãÓÃ¿Õ¼ä
+		while (rowHead[i] != NULL)	{   // é‡Šæ”¾ç¬¬rowè¡Œçš„ç»“ç‚¹æ‰€ç‚¹ç”¨ç©ºé—´
 			p =  rowHead[i];		
 			rowHead[i] = p->right;	
 			delete p;
 		}
 	for (int j = 0; j < cols; j++) 
-		colHead[j] = NULL;			// ³õÊ¼»¯ĞĞÁ´±í±íÍ·Êı×é
+		colHead[j] = NULL;			// åˆå§‹åŒ–è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
     num = 0;
 }
 
 template <class ElemType>
 Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
-// ²Ù×÷½á¹û£ºÈç¹ûÏÂ±ê·¶Î§´í,Ôò·µ»ØRANGE_ERROR,·ñÔò·µ»ØSUCCESS
+// æ“ä½œç»“æœï¼šå¦‚æœä¸‹æ ‡èŒƒå›´é”™,åˆ™è¿”å›RANGE_ERROR,å¦åˆ™è¿”å›SUCCESS
 {
 	if (r >= rows || c >= cols || r < 0 || c < 0)
-		return RANGE_ERROR;				// ÏÂ±ê·¶Î§´í
+		return RANGE_ERROR;				// ä¸‹æ ‡èŒƒå›´é”™
 	
 	CrossNode<ElemType> *pre, *p;
-	if (v == 0) {  // °ÑµÚrĞĞ¡¢µÚcÁĞµÄÖµĞŞ¸ÄÎªÁã 
-	    pre = NULL; p=rowHead[r];	// pÖ¸ÏòÏàÓ¦½áµã£¬preÎªpµÄÇ°Çı½áµã 
+	if (v == 0) {  // æŠŠç¬¬rè¡Œã€ç¬¬cåˆ—çš„å€¼ä¿®æ”¹ä¸ºé›¶ 
+	    pre = NULL; p=rowHead[r];	// pæŒ‡å‘ç›¸åº”ç»“ç‚¹ï¼Œpreä¸ºpçš„å‰é©±ç»“ç‚¹ 
 		while (p != NULL && p->triElem.col < c)	{
 			pre = p;
             p = p->right;
 		}
   
-	    if (p != NULL && p->triElem.col == c)  {// Ô­ÔªËØÎª·ÇÁãÔªËØ£¬ÔòÉ¾³ıp½áµã
-            //  ĞŞ¸ÄÏàÓ¦ĞĞÖĞ½áµãµÄÖ¸Õë    
+	    if (p != NULL && p->triElem.col == c)  {// åŸå…ƒç´ ä¸ºéé›¶å…ƒç´ ï¼Œåˆ™åˆ é™¤pç»“ç‚¹
+            //  ä¿®æ”¹ç›¸åº”è¡Œä¸­ç»“ç‚¹çš„æŒ‡é’ˆ    
 			if (rowHead[r] == p)
                 rowHead[r] = p->right;
             else
                 pre->right = p->right;
 
-            //  ĞŞ¸ÄÏàÓ¦ÁĞÖĞ½áµãµÄÖ¸Õë    
+            //  ä¿®æ”¹ç›¸åº”åˆ—ä¸­ç»“ç‚¹çš„æŒ‡é’ˆ    
 			if (colHead[c] == p)  
 			   colHead[c] = p->down;
             else {
@@ -118,27 +118,27 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
                 pre->down = p->down;
             }
             delete p;            
-		    num--;				// É¾³ı½áµã,·ÇÁãÔªËØ¸öÊı¼õ1
+		    num--;				// åˆ é™¤ç»“ç‚¹,éé›¶å…ƒç´ ä¸ªæ•°å‡1
         }
     }        		
-	else	{  // °ÑµÚrĞĞ¡¢µÚcÁĞµÄÖµĞŞ¸ÄÎª·ÇÁãÔªËØ 
-	    pre = NULL; p=rowHead[r];	// pÖ¸ÏòÏàÓ¦½áµã£¬preÎªpµÄÇ°Çı½áµã 
+	else	{  // æŠŠç¬¬rè¡Œã€ç¬¬cåˆ—çš„å€¼ä¿®æ”¹ä¸ºéé›¶å…ƒç´  
+	    pre = NULL; p=rowHead[r];	// pæŒ‡å‘ç›¸åº”ç»“ç‚¹ï¼Œpreä¸ºpçš„å‰é©±ç»“ç‚¹ 
 		while (p != NULL && p->triElem.col < c)	{
 			pre = p;	p = p->right;
 		}
   
-	    if (p != NULL && p->triElem.col == c)  	// Ô­½áµãÎª·ÇÁãÔªËØ£¬ÔòÖ±½ÓĞŞ¸ÄÆäÖµ 
+	    if (p != NULL && p->triElem.col == c)  	// åŸç»“ç‚¹ä¸ºéé›¶å…ƒç´ ï¼Œåˆ™ç›´æ¥ä¿®æ”¹å…¶å€¼ 
             p->triElem.value = v;
-        else { 	// Ô­½áµãÎª0ÔªËØ£¬ÔòĞèÒª²åÈë½áµã
-            Triple<ElemType> e(r, c, v);		// ÈıÔª×é
-	        CrossNode<ElemType> *ePtr = new CrossNode<ElemType>(e);//Éú³É½áµã
-            // °Ñ½áµã²åÈëµ½ÏàÓ¦ĞĞÖĞ    	    
+        else { 	// åŸç»“ç‚¹ä¸º0å…ƒç´ ï¼Œåˆ™éœ€è¦æ’å…¥ç»“ç‚¹
+            Triple<ElemType> e(r, c, v);		// ä¸‰å…ƒç»„
+	        CrossNode<ElemType> *ePtr = new CrossNode<ElemType>(e);//ç”Ÿæˆç»“ç‚¹
+            // æŠŠç»“ç‚¹æ’å…¥åˆ°ç›¸åº”è¡Œä¸­    	    
 	        if (rowHead[r] == p)
                 rowHead[r] = ePtr;
  	        else
 			    pre->right = ePtr;
    	        ePtr->right = p;	
-            // °Ñ½áµã²åÈëµ½ÏàÓ¦ÁĞÖĞ    	    
+            // æŠŠç»“ç‚¹æ’å…¥åˆ°ç›¸åº”åˆ—ä¸­    	    
 		    pre = NULL; p=colHead[c];
 		    while (p != NULL && p->triElem.row < r)	{
 			    pre = p;
@@ -149,44 +149,44 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
  	        else
 			    pre->down = ePtr;
    	        ePtr->down = p;	
-		    num++;							// Íê³É²åÈë½áµãºó·ÇÁãÔªËØ¸öÊı¼ÓÒ» 
+		    num++;							// å®Œæˆæ’å…¥ç»“ç‚¹åéé›¶å…ƒç´ ä¸ªæ•°åŠ ä¸€ 
 	   }
 	}	   
-	return SUCCESS;							// ·µ»ØĞŞ¸Ä³É¹¦
+	return SUCCESS;							// è¿”å›ä¿®æ”¹æˆåŠŸ
 }
 
 template <class ElemType>
 Status CrossList<ElemType>::GetElem(int r, int c, ElemType &v) const
-// ²Ù×÷½á¹û£ºÈç¹ûÏÂ±ê·¶Î§´í,Ôò·µ»ØRANGE_ERROR,·ñÔò·µ»ØSUCCESS,²¢ÓÃv·µ»ØÖ¸¶¨Î»ÖÃÔªËØÖµ
+// æ“ä½œç»“æœï¼šå¦‚æœä¸‹æ ‡èŒƒå›´é”™,åˆ™è¿”å›RANGE_ERROR,å¦åˆ™è¿”å›SUCCESS,å¹¶ç”¨vè¿”å›æŒ‡å®šä½ç½®å…ƒç´ å€¼
 {
 	if (r >= rows || c >= cols || r < 0 || c < 0)
-		return RANGE_ERROR;			// ÏÂ±ê·¶Î§´í
+		return RANGE_ERROR;			// ä¸‹æ ‡èŒƒå›´é”™
 	
 	CrossNode<ElemType> *p;
 	for (p=rowHead[r]; p != NULL && p->triElem.col < c; p = p->right);
-		// Ñ°ÕÒÔÚµÚrĞĞÁ´±íÖĞµÄÈıÔª×éÎ»ÖÃ
-	if (p != NULL && p->triElem.col == c)	// ÕÒµ½ÈıÔª×é
+		// å¯»æ‰¾åœ¨ç¬¬rè¡Œé“¾è¡¨ä¸­çš„ä¸‰å…ƒç»„ä½ç½®
+	if (p != NULL && p->triElem.col == c)	// æ‰¾åˆ°ä¸‰å…ƒç»„
 		v = p->triElem.value;
-	else	// Î´ÕÒµ½ÈıÔª×é
-		v = 0;						// ²»´æÔÚÖ¸¶¨Î»ÖÃ(r, c)µÄÈıÔª×é,±íÊ¾0ÔªËØ
+	else	// æœªæ‰¾åˆ°ä¸‰å…ƒç»„
+		v = 0;						// ä¸å­˜åœ¨æŒ‡å®šä½ç½®(r, c)çš„ä¸‰å…ƒç»„,è¡¨ç¤º0å…ƒç´ 
 
-	return SUCCESS;					// ³É¹¦
+	return SUCCESS;					// æˆåŠŸ
 }
 
 template <class ElemType>
 CrossList<ElemType>::CrossList(const CrossList<ElemType> &b)
-// ²Ù×÷½á¹û£ºÓÉÏ¡Êè¾ØÕób¹¹ÔìĞÂÏ¡Êè¾ØÕó¡ª¡ª¸´ÖÆ¹¹Ôìº¯Êı
+// æ“ä½œç»“æœï¼šç”±ç¨€ç–çŸ©é˜µbæ„é€ æ–°ç¨€ç–çŸ©é˜µâ€”â€”å¤åˆ¶æ„é€ å‡½æ•°
 {
     CrossNode<ElemType> *p;
-	rows = b.rows;					// ¸´ÖÆĞĞÊı
-	cols = b.cols;					// ¸´ÖÆÁĞÊı
-	num = 0;						// ³õÊ¼»¯·ÇÁãÔª¸öÊı
-	rowHead = new CrossNode<ElemType> *[rows];	// ·ÖÅäĞĞÁ´±í±íÍ·Êı×é´æ´¢¿Õ¼ä
-	colHead = new CrossNode<ElemType> *[cols];	// ·ÖÅäĞĞÁ´±í±íÍ·Êı×é´æ´¢¿Õ¼ä
+	rows = b.rows;					// å¤åˆ¶è¡Œæ•°
+	cols = b.cols;					// å¤åˆ¶åˆ—æ•°
+	num = 0;						// åˆå§‹åŒ–éé›¶å…ƒä¸ªæ•°
+	rowHead = new CrossNode<ElemType> *[rows];	// åˆ†é…è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„å­˜å‚¨ç©ºé—´
+	colHead = new CrossNode<ElemType> *[cols];	// åˆ†é…è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„å­˜å‚¨ç©ºé—´
 	for (int i = 0; i < rows; i++) 
-		rowHead[i] = NULL;			// ³õÊ¼»¯ĞĞÁ´±í±íÍ·Êı×é
+		rowHead[i] = NULL;			// åˆå§‹åŒ–è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
 	for (int i = 0; i < cols; i++) 
-		colHead[i] = NULL;			// ³õÊ¼»¯ĞĞÁ´±í±íÍ·Êı×é
+		colHead[i] = NULL;			// åˆå§‹åŒ–è¡Œé“¾è¡¨è¡¨å¤´æ•°ç»„
 	
 	for (int i = 0; i < rows; i++)
 		for (p = b.rowHead[i]; p != NULL; p = p->right)
@@ -195,15 +195,15 @@ CrossList<ElemType>::CrossList(const CrossList<ElemType> &b)
 
 template <class ElemType>
 CrossList<ElemType> &CrossList<ElemType>::operator =(const CrossList<ElemType> &b)
-// ²Ù×÷½á¹û£º½«Ï¡Êè¾ØÕób¸³Öµ¸øµ±Ç°Ï¡Êè¾ØÕó¡ª¡ª¸³ÖµÓï¾äÖØÔØ
+// æ“ä½œç»“æœï¼šå°†ç¨€ç–çŸ©é˜µbèµ‹å€¼ç»™å½“å‰ç¨€ç–çŸ©é˜µâ€”â€”èµ‹å€¼è¯­å¥é‡è½½
 {
     if (rows != b.rows || cols != b.cols)
-        throw Error("ĞĞÊı»òÁĞÊı²»ÏàµÈ!");	// Å×³öÒì³£
+        throw Error("è¡Œæ•°æˆ–åˆ—æ•°ä¸ç›¸ç­‰!");	// æŠ›å‡ºå¼‚å¸¸
 
 	if (&b != this) {
 	    CrossNode<ElemType> *p;
-		Clear();						// Çå¿ÕÏ¡Êè¾ØÕó
-		num = b.num;					// ³õÊ¼»¯·ÇÁãÔª¸öÊı
+		Clear();						// æ¸…ç©ºç¨€ç–çŸ©é˜µ
+		num = b.num;					// åˆå§‹åŒ–éé›¶å…ƒä¸ªæ•°
 		for (int i = 0; i < rows; i++)
 			for (p = b.rowHead[i]; p != NULL; p = p->right)
 			   SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
@@ -214,10 +214,10 @@ CrossList<ElemType> &CrossList<ElemType>::operator =(const CrossList<ElemType> &
 
 template <class ElemType>
 CrossList<ElemType> CrossList<ElemType>::operator +(const CrossList<ElemType>& b) const
-// ²Ù×÷½á¹û£º½«Ï¡Êè¾ØÕób¸³Öµ¼Óµ½µ±Ç°Ï¡Êè¾ØÕóÖĞ¡ª¡ª¼Ó·¨ÔËËã·ûÖØÔØ
+// æ“ä½œç»“æœï¼šå°†ç¨€ç–çŸ©é˜µbèµ‹å€¼åŠ åˆ°å½“å‰ç¨€ç–çŸ©é˜µä¸­â€”â€”åŠ æ³•è¿ç®—ç¬¦é‡è½½
 {
 	if (rows != b.rows || cols != b.cols)
-		throw Error("ĞĞÊı»òÁĞÊı²»ÏàµÈ!");	// Å×³öÒì³£
+		throw Error("è¡Œæ•°æˆ–åˆ—æ•°ä¸ç›¸ç­‰!");	// æŠ›å‡ºå¼‚å¸¸
 
 	CrossList<ElemType> temp(b.rows, b.cols);
 	ElemType v;
@@ -261,15 +261,15 @@ void CrossList<ElemType>::Show(ostream &out) const
 	{
 		for (int j = 0; j < cols; j++) 
 		{	
-			GetElem(i, j, v);		// È¡ÔªËØÖµ
-			out << v << '\t';		// ÏÔÊ¾ÔªËØÖµ
+			GetElem(i, j, v);		// å–å…ƒç´ å€¼
+			out << v << '\t';		// æ˜¾ç¤ºå…ƒç´ å€¼
 		}
 		out << endl;
 	}
 }
 
 template<class ElemType>
-void CrossList<ElemType>::Input(istream& in)							//ÊäÈëµ½¾ØÕó
+void CrossList<ElemType>::Input(istream& in)							//è¾“å…¥åˆ°çŸ©é˜µ
 {
 	ElemType v;
 	for (int i = 0; i < rows; i++) 
@@ -277,13 +277,13 @@ void CrossList<ElemType>::Input(istream& in)							//ÊäÈëµ½¾ØÕó
 		for (int j = 0; j < cols; j++) 
 		{	
 			in >> v;
-			SetElem(i, j, v);		// È¡ÔªËØÖµ
+			SetElem(i, j, v);		// å–å…ƒç´ å€¼
 		}
 	}
 }
 
 template <class ElemType> 
-void CrossList<ElemType>::Save(const char* filename) const		// ½«Á´±íËùÓĞ½áµãµÄÊı¾İĞ´ÈëÖ¸¶¨ÎÄ¼ş
+void CrossList<ElemType>::Save(const char* filename) const		// å°†é“¾è¡¨æ‰€æœ‰ç»“ç‚¹çš„æ•°æ®å†™å…¥æŒ‡å®šæ–‡ä»¶
 {
 	ofstream outfile;
 	outfile.open(filename);
@@ -294,7 +294,7 @@ void CrossList<ElemType>::Save(const char* filename) const		// ½«Á´±íËùÓĞ½áµãµÄÊ
 }
 
 template <class ElemType> 
-void CrossList<ElemType>::Load(const char* filename)		// ´ÓÖ¸¶¨ÎÄ¼şÖĞ¶ÁÈ¡Êı¾İ£¬¹¹ÔìÁ´±í
+void CrossList<ElemType>::Load(const char* filename)		// ä»æŒ‡å®šæ–‡ä»¶ä¸­è¯»å–æ•°æ®ï¼Œæ„é€ é“¾è¡¨
 {
 	ifstream infile(filename);
 	if (infile.fail())
@@ -311,7 +311,7 @@ ostream& operator <<(ostream& out, const CrossList<ElemType>& list)
 }
 
 template<class ElemType> 
-istream& operator >>(istream& in, CrossList<ElemType>& list)	//ÊäÈëÁ÷ÖØÔØ
+istream& operator >>(istream& in, CrossList<ElemType>& list)	//è¾“å…¥æµé‡è½½
 {
 	list.Input(in);
 	return in;
