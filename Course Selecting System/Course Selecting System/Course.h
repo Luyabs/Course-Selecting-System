@@ -6,12 +6,15 @@ struct Course
 {
 	string id;
 	string name;
-	int	size;		//±¾¿Î³Ìµ±Ç°Ñ¡¿ÎÈËÊı
-	int maxsize;	//±¾¿Î³Ì×î´óÑ¡¿ÎÈËÊı(ÈİÁ¿)
+	int credit;		//æœ¬è¯¾ç¨‹å­¦åˆ†
+	int maxsize;	//æœ¬è¯¾ç¨‹æœ€å¤§é€‰è¯¾äººæ•°(å®¹é‡)
 
-	Course();							// ÎŞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	Course(string Id, string Name, int Size, int maxsize);	// ÓĞ²ÎÊıµÄ¹¹Ôìº¯Êı
-
+	Course();							// æ— å‚æ•°çš„æ„é€ å‡½æ•°
+	Course(string Id, string Name, int Credit, int Maxsize);	// æœ‰å‚æ•°çš„æ„é€ å‡½æ•°
+	string GetName() const; 			//è¿”å›è¯¾ç¨‹å
+	int GetCredit() const;
+	int GetMaxsize() const;
+	friend bool operator!=(Course a,Course b);
 	friend ostream& operator <<(ostream& fout, const Course& c);
 	friend istream& operator >>(istream& fin, Course& c);
 };
