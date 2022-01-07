@@ -5,18 +5,21 @@ const char* datafile1 = "stu.txt";
 const char* datafile2 = "course.txt";
 const char* datafile3 = "selection.txt";
 
-//!!! ÔÚÕâÀïÓÃswitch-caseĞ´¸ö¹¦ÄÜ²Ëµ¥  ¿¼ÂÇÔÚ´ò¿ª¹¦ÄÜ²Ëµ¥Ç°ĞèÒª×Ô¶¯ÓÃÎÄ¼şÁ÷ÊäÈë×Ô¶¯¼ÓÔØÊı¾İ
+//!!! åœ¨è¿™é‡Œç”¨switch-caseå†™ä¸ªåŠŸèƒ½èœå•  è€ƒè™‘åœ¨æ‰“å¼€åŠŸèƒ½èœå•å‰éœ€è¦è‡ªåŠ¨ç”¨æ–‡ä»¶æµè¾“å…¥è‡ªåŠ¨åŠ è½½æ•°æ®
 
 int main()
 {
-	LinkList<Student> Students;
-	Students.Load(datafile1);
-	Students.Show();
-	Students.Save(datafile1);
-	system("Pause");
-	LinkList<Course> Courses;
-	Courses.Load(datafile2);
-	Courses.Show();
-	//cout << "ÇëÔÄ¶ÁCourse Selecting System.hÎÄ¼ş" << endl;
+	//LinkList<Student> Students;
+	//Students.Load(datafile1);
+	//Students.Show();
+	//Students.Save(datafile1);
+	//system("Pause");
+	//LinkList<Course> Courses;
+	//Courses.Load(datafile2);
+	//Courses.Show();
+	//cout << "è¯·é˜…è¯»Course Selecting System.hæ–‡ä»¶" << endl;
+	CSS Css;
+	Css.FindStu();
+	Css.FindCou();
 	return 0;
 }
