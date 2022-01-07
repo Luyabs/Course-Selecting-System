@@ -7,44 +7,45 @@
 class CSS							//Course Selecting System
 {
 protected:
-	LinkList<Student> Students;		//Ñ§ÉúĞÅÏ¢+×ÜÊıÁ¿Students.length
-	LinkList<Course> Courses;			//¿Î³ÌĞÅÏ¢+×ÜÊıÁ¿Courses.length
-	CrossList<bool> Selection;			//Ê®×ÖÁ´±í ĞĞÊı:Students.length£¬ÁĞÊıCourses.length ÓÃÀ´´æ´¢Ä³Ñ§ÉúÊÇ·ñÑ¡Ä³ÃÅ¿ÎÕâÒ»ĞÅÏ¢ ¼ûselection.txt
+	LinkList<Student> Students;		//å­¦ç”Ÿä¿¡æ¯+æ€»æ•°é‡Students.length
+	LinkList<Course> Courses;			//è¯¾ç¨‹ä¿¡æ¯+æ€»æ•°é‡Courses.length
+	CrossList<bool> Selection;			//åå­—é“¾è¡¨ è¡Œæ•°:Students.lengthï¼Œåˆ—æ•°Courses.length ç”¨æ¥å­˜å‚¨æŸå­¦ç”Ÿæ˜¯å¦é€‰æŸé—¨è¯¾è¿™ä¸€ä¿¡æ¯ è§selection.txt
 
 public:
-	//¡ø¹¹ÔìÓëÎö¹¹º¯Êı
+	//â–²æ„é€ ä¸ææ„å‡½æ•°
 	CSS();
 	~CSS() {};
 
-	//!!!ÒÔÏÂÈı¸ö°å¿éº¯ÊıÒ»°ã¶¯Ò»¸öÈı¸ö³ÉÔ±Students,Courses,Selection¶¼µÃ¸Ä
-	//!£¡Çë°Ñº¯ÊıµÄ¾ßÌåÊµÏÖĞ´ÔÚCourse Selecting System.cppÖĞ
-	//£¡ ÎÄ¼şÁ÷µÄÊäÈëÊä³ö¿ÉÒÔ²Î¼ûCrossListÖĞ×îºóÁù¸öÀ©Ğ´µÄ³ÉÔ±º¯Êı
+	//!!!ä»¥ä¸‹ä¸‰ä¸ªæ¿å—å‡½æ•°ä¸€èˆ¬åŠ¨ä¸€ä¸ªä¸‰ä¸ªæˆå‘˜Students,Courses,Selectionéƒ½å¾—æ”¹
+	//!ï¼è¯·æŠŠå‡½æ•°çš„å…·ä½“å®ç°å†™åœ¨Course Selecting System.cppä¸­
+	//ï¼ æ–‡ä»¶æµçš„è¾“å…¥è¾“å‡ºå¯ä»¥å‚è§CrossListä¸­æœ€åå…­ä¸ªæ‰©å†™çš„æˆå‘˜å‡½æ•°
 	
 	
-	//¢ÙStudents
-	//***²éÑ¯Ä³Ñ§ÉúÑ¡¿ÎÇé¿öµÄº¯Êı
-	//***Ñ§ÉúÑ¡¿ÎÍË¿Î
+	//â‘ Students
+	//***æŸ¥è¯¢æŸå­¦ç”Ÿé€‰è¯¾æƒ…å†µçš„å‡½æ•°
+	Status FindStu();
+	//***å­¦ç”Ÿé€‰è¯¾é€€è¯¾
 
-	//***Ôö¼Ó¼õÉÙÑ§Éú
+	//***å¢åŠ å‡å°‘å­¦ç”Ÿ
 	//......
 	
-	void StuSave(const char* filename="stu.txt");  //±£´æÑ§ÉúÃûµ¥µ½stu.txtµÄº¯Êı
-	void StuReset();  //´Óstu.txt¶ÁÈ¡Êı¾İµÄº¯Êı
+	void StuSave(const char* filename="stu.txt");  //ä¿å­˜å­¦ç”Ÿåå•åˆ°stu.txtçš„å‡½æ•°
+	void StuReset();  //ä»stu.txtè¯»å–æ•°æ®çš„å‡½æ•°
 
-	//¢ÚCourses
-	//***¸ÄÄ³Ò»ÃÅ¿Îmaxsize(¿Î³ÌÈİÁ¿)µÄº¯Êı
-	//***²éÑ¯¿Î³ÌµÄº¯Êı
-	
-	//***Ôö¼ÓÉ¾³ı¿Î³ÌµÄº¯Êı
+	//â‘¡Courses
+	//***æ”¹æŸä¸€é—¨è¯¾maxsize(è¯¾ç¨‹å®¹é‡)çš„å‡½æ•°
+	//***æŸ¥è¯¢è¯¾ç¨‹çš„å‡½æ•°
+	Status FindCou();
+	//***å¢åŠ åˆ é™¤è¯¾ç¨‹çš„å‡½æ•°
 	//......
 
-	//***±£´æ¿Î³Ìµ½course.txtµÄº¯Êı
-	//***´Ócourse.txt¶ÁÈ¡Êı¾İµÄº¯Êı
+	//***ä¿å­˜è¯¾ç¨‹åˆ°course.txtçš„å‡½æ•°
+	//***ä»course.txtè¯»å–æ•°æ®çš„å‡½æ•°
 
 
-	//¢ÛSelection
-	//***¸ÄÑ¡ÔñÇé¿öµÄº¯Êı
+	//â‘¢Selection
+	//***æ”¹é€‰æ‹©æƒ…å†µçš„å‡½æ•°
 	//......
-	void SelSave(const char* filename = "selection.txt");//±£´æÑ¡ÔñÇé¿öµ½selection.txtµÄº¯Êı
-	void SelLoad();//´Óselection.txt¶ÁÈ¡Êı¾İµÄº¯Êı
+	void SelSave(const char* filename = "selection.txt");//ä¿å­˜é€‰æ‹©æƒ…å†µåˆ°selection.txtçš„å‡½æ•°
+	void SelLoad();//ä»selection.txtè¯»å–æ•°æ®çš„å‡½æ•°
 };
