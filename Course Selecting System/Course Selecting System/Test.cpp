@@ -21,5 +21,7 @@ int main()
 	CSS Css;
 	Css.FindStu();
 	Css.FindCou();
+	Css.DeleteStu();
+	Css.DeleteCou();
 	return 0;
 }
