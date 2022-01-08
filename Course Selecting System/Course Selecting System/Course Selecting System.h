@@ -27,6 +27,8 @@ public:
 	//***学生选课退课
 
 	//***增加减少学生
+	Status AddStu(int Id, string Name);
+	Status DeleteStu();
 	//......
 	
 	void StuSave(const char* filename="stu.txt");  //保存学生名单到stu.txt的函数
@@ -37,6 +39,8 @@ public:
 	//***查询课程的函数
 	Status FindCou();
 	//***增加删除课程的函数
+	Status AddCou(string Id, string Name, int Credit, int Maxsize = 45);
+	Status DeleteCou();
 	//......
 
 	//***保存课程到course.txt的函数
