@@ -1,21 +1,11 @@
 #include "Student.h"
 
-Student::Student() :id(0), name("")
+Student::Student() :id(0), name(""),num(0)
 {
 }
 
-Student::Student(int Id, string Name) : id(Id), name(Name)
+Student::Student(int Id, string Name) : id(Id), name(Name),num(0)
 {
-}
-
-string Student::GetName() const
-{
-	return name;
-}
-
-int Student::GetId() const
-{
-	return id;
 }
 
 ostream& operator<<(ostream& fout, const Student& s)
@@ -30,9 +20,4 @@ istream& operator>>(istream& fin, Student& s)
 	fin.getline(str, 80, '\t'); s.id = atoi(str);
 	fin.getline(str, 80); s.name = str;
 	return fin;
-}
-
-bool operator!=(Student a,Student b)
-{
-	return !(a.id == b.id || a.name == b.name);
 }
