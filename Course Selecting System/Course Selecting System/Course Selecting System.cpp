@@ -45,6 +45,8 @@ CSS::CSS()
 			}
 			cout << endl << "1. 课程扩容.";
 			cout << endl << "2. 删除课程.";
+			cout << endl << "3. 新增课程.";
+			cout << endl << "4. 选课详情.";
 			cout << endl << "0. 退出";
 			cout << endl << "选择功能(0~2):";
 			cin >> c;
@@ -68,10 +70,13 @@ CSS::CSS()
 				}
 				break;
 			case '2':
-				
+				DeleteCou();
 				break;
 			case '3':
-				
+				AddCou();
+				break;
+			case '4':
+				FindCou();
 				break;
 			}
 		}
@@ -161,6 +166,16 @@ void CSS::StuReset()
 	Students.Load("stu.txt");
 }
 
+void CSS::CouSave(const char* filename)
+{
+	Courses.Save(filename);
+}
+
+void CSS::CouReset()
+{
+	Courses.Load("course.txt");
+}
+
 void CSS::SelSave(const char* filename)
 {
 	Selection.Save(filename);
@@ -171,97 +186,41 @@ void CSS::SelLoad()
 	Selection.Load("selection.txt");
 }
 
-Status CSS::FindStu()							//查询学生选课情况
-{
-	bool flag;
-	int e;
-	int id = 0;
-	string name = "";
-	char c = '#';
-	cout<< "1.输入学号" << endl;
-	cout<< "2.输入姓名" << endl;
-	cout<< endl<< "请输入：";
-	cin >> c;
-	switch(c)
-	{
-	case '1':
-		cout<< "输入学号：";
-		cin >> id;
-		break;
-	case '2':
-		cout<< "输入姓名：";
-		cin >> name;
-		break;
-	default:
-		return FAIL;
-	}
-	Student stu(id,name);
-	Course cou;
-	e = Students.LocateElem(stu);
-	if(e == 0)									//查无此人
-		return NOT_PRESENT;
-	cout<< std::left << setw(26) << "所选课程："<< "学分："<< endl;
-	for(int i = 0;i < Courses.GetLength();i++)
-	{
-		Selection.GetElem(e-1,i,flag);
-		if(flag)
-		{
-			Courses.GetElem(i+1,cou);
-			cout<< std::left << setw(30) << cou.GetName() <<  cou.GetCredit() << endl;
-		}
-	}
-	return SUCCESS;
-}
+
 
 Status CSS::FindCou()							//查询课程被选情况
 {
-	bool flag;
-	int e;
-	string id = "";
-	string name = "";
-	char c = '#';
-	cout<< "1.输入课程号" << endl;
-	cout<< "2.输入课程名" << endl;
-	cout<< endl<< "请输入：";
-	cin >> c;
-	switch(c)
+	string Courseid;
+	cout << "请输入课程号：";
+	cin >> Courseid;
+	for (int j = 1; j <= Courses.GetLength(); j++)
 	{
-	case '1':
-		cout<< "输入课程号：";
-		cin >> id;
-		break;
-	case '2':
-		cout<< "输入课程名：";
-		cin >> name;
-		break;
-	default:
-		return FAIL;
-	}
-	Course cou(id,name,0,0);
-	Student stu;
-	int num = 0;
-	e = Courses.LocateElem(cou);
-	if(e == 0)
-		return NOT_PRESENT;
-	cout<< std::left << setw(26) << "选课学生姓名："<< "学号："<< endl;
-	for(int i = 0;i < Students.GetLength();i++)
-	{
-		Selection.GetElem(i,e-1,flag);
-		if(flag)
+		Course C;
+		Courses.GetElem(j, C);
+		if (C.id == Courseid)
 		{
-			num++;
-			Students.GetElem(i+1,stu);
-			cout<< std::left << setw(30) << stu.GetName() <<  stu.GetId() << endl;
+			cout << std::left << setw(26) << "选课学生姓名：" << "学号：" << endl;
+			CrossNode<bool>* sn;
+			for (sn = Selection.colHead[j - 1]; sn != NULL; sn = sn->down)
+			{
+				Student stu;
+				Students.GetElem(sn->triElem.row + 1, stu);
+				cout << std::left << setw(30) << stu.name << stu.id << endl;
+			}
+			cout << "剩余名额：" << C.maxsize - C.size << endl;
+		}
+		if (j == Courses.GetLength())
+		{
+			cout << "未找到课程号为" << Courseid << "的课程" << endl;
+			return NOT_PRESENT;
 		}
 	}
-	Courses.GetElem(e,cou);
-	cout<< "剩余名额：" << cou.GetMaxsize() - num << endl;
 	return SUCCESS;
 }
 
 Status CSS::AddStu(int Id, string Name)				//增加学生
 {
-	Student stu(Id,Name);
+	Student stu(Id, Name);
 	Students.InsertElem(stu);
 	Selection.AddRows();			//增加一行
 	//cout<<Selection.GetRows()<<endl;
@@ -271,42 +230,43 @@ Status CSS::AddStu(int Id, string Name)				//增加学生
 
 Status CSS::DeleteStu()								//删除学生
 {
-	int e;
-	int id = 0;
-	string name = "";
-	char c = '#';
-	cout<< "1.输入学号" << endl;
-	cout<< "2.输入姓名" << endl;
-	cout<< endl<< "请输入：";
-	cin >> c;
-	switch(c)
+	int StuId;
+	cout << "请输入课程号：";
+	cin >> StuId;
+	for (int j = 1; j <= Students.GetLength(); j++)
 	{
-	case '1':
-		cout<< "输入学号：";
-		cin >> id;
-		break;
-	case '2':
-		cout<< "输入姓名：";
-		cin >> name;
-		break;
-	default:
-		return FAIL;
+		Student S;
+		Students.GetElem(j, S);
+		if (S.id == StuId)
+		{
+			Students.DeleteElem(j, S);					//删除 cou为课程信息
+			Students.Show();
+			Selection.DeleteRows(j);					//减一行
+		}
+		if (j == Courses.GetLength())
+		{
+			cout << "未找到课程号为" << StuId << "的课程" << endl;
+			return NOT_PRESENT;
+		}
 	}
-	Student stu(id,name);
-	Course cou;
-	e = Students.LocateElem(stu);
-	if(e == 0)									//查无此人
-		return NOT_PRESENT;
-	Students.DeleteElem(e,stu);					//删除 stu为学生信息
-	Selection.DeleteRows(e);					//减一行
-	//cout<<Selection.GetRows()<<endl;
-	//cout<<Selection.GetNum()<<endl;
 	return SUCCESS;
 }
 
-Status CSS::AddCou(string Id, string Name, int Credit, int Maxsize )
+Status CSS::AddCou()
 {
-	Course cou(Id,Name,Credit,Maxsize);
+	string Courseid;
+	string CouName;
+	int CouCre;
+	int CouMax;
+	cout << "请输入新增课程号：";
+	cin >> Courseid;
+	cout << "请输入新增课程名：";
+	cin >> CouName;
+	cout << "请输入新增课程的学分：";
+	cin >> CouCre;
+	cout << "请输入新增课程的最大人数：";
+	cin >> CouMax;
+	Course cou(Courseid, CouName, CouCre, CouMax);
 	Courses.InsertElem(cou);
 	Selection.AddCols();			//增加一列
 	//cout<<Selection.GetCols()<<endl;
@@ -316,35 +276,26 @@ Status CSS::AddCou(string Id, string Name, int Credit, int Maxsize )
 
 Status CSS::DeleteCou()
 {
-	int e;
-	string id = "";
-	string name = "";
-	char c = '#';
-	cout<< "1.输入课程号" << endl;
-	cout<< "2.输入课程名" << endl;
-	cout<< endl<< "请输入：";
-	cin >> c;
-	switch(c)
+	string Courseid;
+	cout << "请输入课程号：";
+	cin >> Courseid;
+	for (int j = 1; j <= Courses.GetLength(); j++)
 	{
-	case '1':
-		cout<< "输入课程号：";
-		cin >> id;
-		break;
-	case '2':
-		cout<< "输入课程名：";
-		cin >> name;
-		break;
-	default:
-		return FAIL;
+		Course C;
+		Courses.GetElem(j, C);
+		if (C.id == Courseid)
+		{
+			Courses.DeleteElem(j,C);					//删除 cou为课程信息
+			Courses.Show();
+			Selection.DeleteCols(j-1);					//减一列
+			//cout << Selection.GetCols() << endl;
+			//cout << Selection.GetNum() << endl;
+		}
+		if (j == Courses.GetLength())
+		{
+			cout << "未找到课程号为" << Courseid << "的课程" << endl;
+			return NOT_PRESENT;
+		}
 	}
-	Course cou(id,name,0,0);
-	e = Courses.LocateElem(cou);
-	if(e == 0)
-		return NOT_PRESENT;
-	Courses.DeleteElem(e,cou);					//删除 cou为课程信息
-	Courses.Show();
-	Selection.DeleteCols(e);					//减一列
-	cout<<Selection.GetCols()<<endl;
-	cout<<Selection.GetNum()<<endl;
 	return SUCCESS;
 }
