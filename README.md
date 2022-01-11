@@ -1,5 +1,5 @@
 # Course-Selecting-System
-差不多行了
+差不多行了， 下载release版直接用
 
 ~~框架设计好了，具体请阅读Course Selecting System.h文件，按照Plan α.xlsx中的优先度填函数
 ！优化了程序结构 多了一堆cpp 请重新下载全部文件
