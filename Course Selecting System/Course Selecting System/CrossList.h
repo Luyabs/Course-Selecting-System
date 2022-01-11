@@ -16,7 +16,7 @@ protected:
 
 public:
 // 稀疏矩阵十字链的方法声明:
-	CrossList(int rs = 900, int cs = 100);
+	CrossList(int rs = DEFAULT_SIZE, int cs = DEFAULT_SIZE);
 		// 构造一个rs行cs列的空稀疏矩阵
 	~CrossList();				// 析构函数
 	void Clear();					// 清空稀疏矩阵
@@ -39,7 +39,7 @@ public:
 	void AddCols();					//增加一列
 	void DeleteRows(int e);				//删除一行
 	void DeleteCols(int e);				//删除一列
-
+	friend class CSS;
 };
 
 template<class ElemType> ostream& operator <<(ostream& out, const CrossList<ElemType>& list);	//输出流重载
@@ -198,22 +198,35 @@ CrossList<ElemType>::CrossList(const CrossList<ElemType> &b)
 }
 
 template <class ElemType>
-CrossList<ElemType> &CrossList<ElemType>::operator =(const CrossList<ElemType> &b)
+CrossList<ElemType>& CrossList<ElemType>::operator =(const CrossList<ElemType>& b)
 // 操作结果：将稀疏矩阵b赋值给当前稀疏矩阵——赋值语句重载
 {
-	if (&b != this) {
+	if (rows != b.rows || cols != b.cols)
+	{
+
 		Clear();
-	    CrossNode<ElemType> *p;
-		rows = b.rows;					// 复制行数
-		cols = b.cols;					// 复制列数
-		num = 0;						// 初始化非零元个数
+		delete[]rowHead;					// 释放行链表表头数组
+		delete[]colHead;					// 释放列链表表头数组
+		CrossNode<ElemType>* p;					// 清空稀疏矩阵
+		num = b.num;					// 初始化非零元个数
+		rows = b.rows;
+		cols = b.cols;
 		rowHead = new CrossNode<ElemType> *[rows];	// 分配行链表表头数组存储空间
 		colHead = new CrossNode<ElemType> *[cols];	// 分配行链表表头数组存储空间
-		for (int i = 0; i < rows; i++) 
+		for (int i = 0; i < rows; i++)
 			rowHead[i] = NULL;			// 初始化行链表表头数组
-		for (int i = 0; i < cols; i++) 
+		for (int i = 0; i < cols; i++)
 			colHead[i] = NULL;			// 初始化行链表表头数组
-		
+
+		for (int i = 0; i < rows; i++)
+			for (p = b.rowHead[i]; p != NULL; p = p->right)
+				SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
+	}
+	else if (&b != this)
+	{
+		CrossNode<ElemType>* p;
+		Clear();						// 清空稀疏矩阵
+		num = b.num;					// 初始化非零元个数
 		for (int i = 0; i < rows; i++)
 			for (p = b.rowHead[i]; p != NULL; p = p->right)
 				SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
@@ -221,6 +234,7 @@ CrossList<ElemType> &CrossList<ElemType>::operator =(const CrossList<ElemType> &
 	return *this;
 
 }
+
 
 template <class ElemType>
 CrossList<ElemType> CrossList<ElemType>::operator +(const CrossList<ElemType>& b) const
@@ -272,7 +286,7 @@ void CrossList<ElemType>::Show(ostream &out) const
 		for (int j = 0; j < cols; j++) 
 		{	
 			GetElem(i, j, v);		// 取元素值
-			out << v << '\t';		// 显示元素值
+			out << v << ' ';		// 显示元素值
 		}
 		out << endl;
 	}
@@ -327,59 +341,72 @@ istream& operator >>(istream& in, CrossList<ElemType>& list)	//输入流重载
 	return in;
 }
 
-template <class ElemType> 
+template <class ElemType>
 void CrossList<ElemType>::AddRows()					//增加一行
 {
-	CrossList<ElemType> temp(rows + 1,cols);
-	CrossNode<ElemType> *p;
+	CrossList<ElemType> temp(rows + 1, cols);
+	CrossNode<ElemType>* p;
 	for (int i = 0; i < rows; i++)
 		for (p = rowHead[i]; p != NULL; p = p->right)
 			temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
 	*this = temp;
 }
 
-template <class ElemType> 
+template <class ElemType>
 void CrossList<ElemType>::AddCols()				//增加一列
 {
-	CrossList<ElemType> temp(rows,cols + 1);
-	CrossNode<ElemType> *p;
+	CrossList<ElemType> temp(rows, cols + 1);
+	CrossNode<ElemType>* p;
 	for (int i = 0; i < rows; i++)
 		for (p = rowHead[i]; p != NULL; p = p->right)
 			temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
 	*this = temp;
 }
 
-template <class ElemType> 
+template <class ElemType>
 void CrossList<ElemType>::DeleteRows(int e)				//删除一行
 {
-	CrossList<ElemType> temp(rows - 1,cols);
-	CrossNode<ElemType> *p;
+	CrossList<ElemType> temp(rows - 1, cols);
+	CrossNode<ElemType>* p;
 	for (int i = 0; i < rows; i++)
 	{
-		if(i < e)
+		if (i < e)
 			for (p = rowHead[i]; p != NULL; p = p->right)
+			{
 				temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
-		else if(i > e)
+				temp.num++;
+			}
+		else if (i > e)
 			for (p = rowHead[i]; p != NULL; p = p->right)
-				temp.SetElem(p->triElem.row-1, p->triElem.col, p->triElem.value);
+			{
+				temp.SetElem(p->triElem.row - 1, p->triElem.col, p->triElem.value);
+				temp.num++;
+			}
 	}
 	*this = temp;
 }
 
-template <class ElemType> 
+template <class ElemType>
 void CrossList<ElemType>::DeleteCols(int e)				//删除一列
 {
-	CrossList<ElemType> temp(rows,cols - 1);
-	CrossNode<ElemType> *p;
+	CrossList<ElemType> temp(rows, cols - 1);
+	CrossNode<ElemType>* p;
 	for (int i = 0; i < cols; i++)
 	{
-		if(i < e)
+		if (i < e)
 			for (p = colHead[i]; p != NULL; p = p->down)
+			{
 				temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
-		else if(i > e)
+				temp.num++;
+			}
+		else if (i > e)
 			for (p = colHead[i]; p != NULL; p = p->down)
-				temp.SetElem(p->triElem.row, p->triElem.col-1, p->triElem.value);
+			{
+				temp.SetElem(p->triElem.row, p->triElem.col - 1, p->triElem.value);
+				temp.num++;
+			}
 	}
 	*this = temp;
 }
+
 #endif
