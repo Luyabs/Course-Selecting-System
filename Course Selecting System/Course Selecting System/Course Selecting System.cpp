@@ -224,7 +224,7 @@ Status CSS::DeleteStu()								//删除学生
 				Courses.SetElem(cn->triElem.col + 1, C);
 			}
 			Students.DeleteElem(j, S);					//删除 cou为课程信息
-			Selection.DeleteRows(j-1);					//减一行
+			Selection.DeleteRows(j - 1);					//减一行
 			cout << "学生已除名" << endl;
 			return SUCCESS;
 		}
@@ -237,8 +237,8 @@ Status CSS::DeleteStu()								//删除学生
 	return SUCCESS;
 }
 
-int CSS::FindStudent(const int &id)	const				//返回学生所在行数(从0数起)
-{	
+int CSS::FindStudent(const int& id)	const				//返回学生所在行数(从0数起)
+{
 	if (id == 0)	return 0;
 	Student s;
 	for (int j = 1; j <= Students.GetLength(); j++)
@@ -306,6 +306,11 @@ Status CSS::FindCou_Admin() const						//查询课程被选情况
 
 void CSS::FindCou_Student(const int& id) const							//查询学生选了什么课
 {
+	if (id <= 0)
+	{
+		cout << "学生id必须是一个正数" << endl;
+		return;
+	}
 	CrossNode<bool>* cn;
 	Student s;
 	Students.GetElem(id, s);
