@@ -17,19 +17,19 @@ public:
 	~CSS() {};
 
 	//CSS
-	void Load(const char* stu= "stu.txt", const char* cou= "course.txt", const char* sel= "selection.txt");							//为CSS整合Student Course Selction
+	void Load(const char* stu = "stu.txt", const char* cou = "course.txt", const char* sel = "selection.txt");							//为CSS整合Student Course Selction
 	void Menu();							//为CSS整合功能菜单
 	void Menu_Admin();						//选课系统管理员菜单
 	void Menu_Student(int id);				//学生菜单
 	void Save(const char* stu = "stu.txt", const char* cou = "course.txt", const char* sel = "selection.txt");							//为CSS整合Save
 
 	//Student
-	void StuSave(const char* filename="stu.txt");  //保存学生名单到stu.txt的函数
+	void StuSave(const char* filename = "stu.txt");  //保存学生名单到stu.txt的函数
 	void StuReset();								 //从stu.txt读取数据的函数
-	Status AddStu(int Id, string Name);				//增加学生
+	Status AddStu();				//增加学生
 	Status DeleteStu();                             //减少
 	int FindStudent(int id);						//返回学生所在行数(从0数起)
-	
+
 	//Course
 	void CouSave(const char* filename = "course.txt");
 	void CouReset();
@@ -39,9 +39,10 @@ public:
 	void FindCou_Student(int id);				//查询学生自己选了什么课
 	Status AddCou();							//增加课程
 	Status DeleteCou();							//删除课程
-	void ChooseCou(Student s);							//学生选课
+	void ChooseCou(int id,Student& s);							//学生选课
+	void UnChooseCou(int id,Student& s);							//学生选课
 	void TraverseCou();							//遍历课程
-	
+
 	//Selection
 	void SelSave(const char* filename = "selection.txt");//保存选择情况到selection.txt的函数
 	void SelLoad();//从selection.txt读取数据的函数
