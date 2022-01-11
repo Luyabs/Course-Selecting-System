@@ -224,7 +224,7 @@ Status CSS::DeleteStu()								//删除学生
 				Courses.SetElem(cn->triElem.col + 1, C);
 			}
 			Students.DeleteElem(j, S);					//删除 cou为课程信息
-			Selection.DeleteRows(j);					//减一行
+			Selection.DeleteRows(j-1);					//减一行
 			cout << "学生已除名" << endl;
 			return SUCCESS;
 		}
