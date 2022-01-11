@@ -81,10 +81,10 @@ void CSS::Menu_Admin()
 			AddCou();
 			break;
 		case '6':
-			cout << "把函数补上,需要修改" << endl;
+			AddStu();
 			break;
 		case '7':
-			cout << "把函数补上,需要修改" << endl;
+			DeleteStu();
 			break;
 		case '8':
 			int id;
@@ -122,10 +122,12 @@ void CSS::Menu_Student(int id)
 			FindCou_Student(id);
 			break;
 		case '3':
-			ChooseCou(s);
+			ChooseCou(id,s);
+			Students.SetElem(id, s);
 			break;
 		case '4':
-			cout << "把函数补上,需要修改" << endl;
+			UnChooseCou(id, s);
+			Students.SetElem(id, s);
 			break;
 		}
 		cout << "========================================" << endl;
@@ -169,10 +171,25 @@ void CSS::SelLoad()
 	Selection.Load("selection.txt");
 }
 
-Status CSS::AddStu(int Id, string Name)				//增加学生
+Status CSS::AddStu()				//增加学生
 {
-	cout << "这个函数没有改变num" << endl;
-	Student stu(Id, Name);
+	//cout << "这个函数没有改变num" << endl;
+	int ID;
+	string StuName;
+	cout << "请输入新增学生的学号：";
+	cin >> ID;
+	for (int j = 1; j <= Students.GetLength(); j++)
+	{
+		Student s;
+		if (s.id == ID)
+		{
+			cout << "该学号与原有学生冲突！" << endl;
+			return FAIL;
+		}
+	}
+	cout << "请输入新增学生的姓名：";
+	cin >> StuName;
+	Student stu(ID, StuName);
 	Students.InsertElem(stu);
 	Selection.AddRows();			//增加一行
 	//cout<<Selection.GetRows()<<endl;
@@ -182,9 +199,8 @@ Status CSS::AddStu(int Id, string Name)				//增加学生
 
 Status CSS::DeleteStu()								//删除学生
 {
-	cout << "这个函数没有改变num" << endl;
 	int StuId;
-	cout << "请输入课程号：";
+	cout << "请输入学生id：";
 	cin >> StuId;
 	for (int j = 1; j <= Students.GetLength(); j++)
 	{
@@ -192,13 +208,22 @@ Status CSS::DeleteStu()								//删除学生
 		Students.GetElem(j, S);
 		if (S.id == StuId)
 		{
+			CrossNode<bool>* cn;
+			for (cn = Selection.rowHead[j - 1]; cn != NULL; cn = cn->right)
+			{
+				Course C;
+				Courses.GetElem(cn->triElem.col + 1, C);
+				C.size--;
+				Courses.SetElem(cn->triElem.col + 1, C);
+			}
 			Students.DeleteElem(j, S);					//删除 cou为课程信息
 			Students.Show();
 			Selection.DeleteRows(j);					//减一行
+			return SUCCESS;
 		}
-		if (j == Courses.GetLength())
+		if (j == Students.GetLength())
 		{
-			cout << "未找到课程号为" << StuId << "的课程" << endl;
+			cout << "未找到学号为" << StuId << "的学生" << endl;
 			return NOT_PRESENT;
 		}
 	}
@@ -207,7 +232,15 @@ Status CSS::DeleteStu()								//删除学生
 
 int CSS::FindStudent(int id)						//返回学生所在行数(从0数起)
 {
-	cout<<"在这设计为根据学生真实学号 如2021xxxx 找到这个学号所在的行:" << endl;
+	Student s;
+	for (int j = 1; j <= Students.GetLength(); j++)
+	{
+		Students.GetElem(j, s);
+		if (s.id == id)
+			return j;
+	}
+	cout << "没有学号为" << id << "的学生" << endl;
+	return -1;
 }
 
 void CSS::EnlargeCou()
@@ -265,6 +298,9 @@ Status CSS::FindCou_Admin()							//查询课程被选情况
 void CSS::FindCou_Student(int id)							//查询学生选了什么课
 {
 	CrossNode<bool>* cn;
+	Student s;
+	Students.GetElem(id, s);
+	cout << "已选：" << s.num << "门，最多可选5门" << endl;
 	cout << std::left << setw(15) << "课程号"
 		<< setw(30) << "课程名" << setw(1) << "学分" << endl;
 	for (cn = Selection.rowHead[id - 1]; cn != NULL; cn = cn->right)
@@ -290,6 +326,16 @@ Status CSS::AddCou()
 	cin >> CouCre;
 	cout << "请输入新增课程的最大人数：";
 	cin >> CouMax;
+	for (int j = 1; j <= Courses.GetLength(); j++)
+	{
+		Course c;
+		Courses.GetElem(j, c);
+		if (c.id == Courseid || c.name == CouName)
+		{
+			cout << "与原有课程冲突！" << endl;
+			return FAIL;
+		}
+	}
 	Course cou(Courseid, CouName, CouCre, CouMax);
 	Courses.InsertElem(cou);
 	Selection.AddCols();			//增加一列
@@ -309,11 +355,12 @@ Status CSS::DeleteCou()
 		Courses.GetElem(j, C);
 		if (C.id == Courseid)
 		{
-			Courses.DeleteElem(j,C);					//删除 cou为课程信息
+			Courses.DeleteElem(j, C);					//删除 cou为课程信息
 			Courses.Show();
-			Selection.DeleteCols(j-1);					//减一列
+			Selection.DeleteCols(j - 1);					//减一列
 			//cout << Selection.GetCols() << endl;
 			//cout << Selection.GetNum() << endl;
+			return SUCCESS;
 		}
 		if (j == Courses.GetLength())
 		{
@@ -324,7 +371,8 @@ Status CSS::DeleteCou()
 	return SUCCESS;
 }
 
-void CSS::ChooseCou(Student s)
+
+void CSS::ChooseCou(int id,Student& s)
 {
 	if (s.num >= 5)
 		cout << "选课数目已达5门，不可再选！" << endl;
@@ -350,13 +398,43 @@ void CSS::ChooseCou(Student s)
 			{
 				if (C.size < C.maxsize)
 				{
-					Selection.SetElem(s.id - 1, j - 1, 1);
+					Selection.SetElem(id - 1, j - 1, 1);
+					s.num++;
+					C.size++;
+					Courses.SetElem(j, C);
 				}
 				else
 				{
 					cout << "课程容量已满！" << endl;
 				}
 				break;
+			}
+			if (j == Courses.GetLength())
+				cout << "未找到课程号为" << Courseid << "的课程" << endl;
+		}
+	}
+}
+
+void CSS::UnChooseCou(int id,Student& s)
+{
+	if (s.num <= 0)
+		cout << "没有选择任何课程，不可以进行退课操作！" << endl;
+	else
+	{
+		cout << "请输入课程号：";
+		string Courseid;
+		cin >> Courseid;
+		for (int j = 1; j <= Courses.GetLength(); j++)
+		{
+			Course C;
+			Courses.GetElem(j, C);
+			if (C.id == Courseid)
+			{
+				Selection.SetElem(id - 1, j - 1, 0);
+				s.num--;
+				C.size--;
+				Courses.SetElem(j, C);
+				return;
 			}
 			if (j == Courses.GetLength())
 				cout << "未找到课程号为" << Courseid << "的课程" << endl;
