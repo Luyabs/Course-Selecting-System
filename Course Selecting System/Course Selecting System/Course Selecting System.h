@@ -28,15 +28,16 @@ public:
 	void StuReset();								//从stu.txt读取数据的函数
 	Status AddStu();								//增加学生(管理员)
 	Status DeleteStu();                             //减少学生(管理员)
-	int FindStudent(const int &id) const;			//返回学生所在行数(从0数起) 将id从学号转行数的操作
+	int FindStudent(const int& id) const;			//返回学生所在行数(从0数起) 将id从学号转行数的操作
 
 	//Course & Course Choosing
 	void CouSave(const char* filename = "course.txt");	//保存学生名单到course.txt的函数
 	void CouReset();									//从course.txt读取数据的函数
 
 	void EnlargeCou();							//课程扩容(管理员)
+	void ReduceCou();
 	Status FindCou_Admin() const;				//查询任意课程被选情况(管理员)
-	void FindCou_Student(const int &id) const;	//查询学生自己选了什么课
+	void FindCou_Student(const int& id) const;	//查询学生自己选了什么课
 	Status AddCou();							//增加课程(管理员)
 	Status DeleteCou();							//删除课程(管理员)
 	void ChooseCou(const int& id, Student& s);	//学生选课
