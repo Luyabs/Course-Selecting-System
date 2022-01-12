@@ -53,47 +53,51 @@ void CSS::Menu()
 
 void CSS::Menu_Admin()
 {
-	char c = '*';
+	int c = 99;
 	while (c != '0')
 	{
 		cout << endl << "1. 遍历课程.";
 		cout << endl << "2. 遍历学生.";
 		cout << endl << "3. 课程选课详情.";
 		cout << endl << "4. 课程扩容.";
-		cout << endl << "5. 删除课程.";
-		cout << endl << "6. 新增课程.";
-		cout << endl << "7. 增加学生.";
-		cout << endl << "8. 移除学生.";
-		cout << endl << "9. 查询学生选课情况";
+		cout << endl << "5. 课程减容.";
+		cout << endl << "6. 删除课程.";
+		cout << endl << "7. 新增课程.";
+		cout << endl << "8. 增加学生.";
+		cout << endl << "9. 移除学生.";
+		cout << endl << "10. 查询学生选课情况";
 		cout << endl << "0. 退出并保存";
 		cout << endl << "选择功能(0~9):";
 		cin >> c;
 		switch (c) {
-		case '1':
+		case 1:
 			TraverseCou();
 			break;
-		case '2':
+		case 2:
 			Students.Show();
 			break;
-		case '3':
+		case 3:
 			FindCou_Admin();
 			break;
-		case '4':
+		case 4:
 			EnlargeCou();
 			break;
-		case '5':
+		case 5:
+			ReduceCou();
+			break;
+		case 6:
 			DeleteCou();
 			break;
-		case '6':
+		case 7:
 			AddCou();
 			break;
-		case '7':
+		case 8:
 			AddStu();
 			break;
-		case '8':
+		case 9:
 			DeleteStu();
 			break;
-		case '9':
+		case 10:
 			int id;
 			cout << "输入想要查找的学生学号: ";
 			cin >> id;
@@ -275,6 +279,60 @@ void CSS::EnlargeCou()
 			break;
 		}
 	}
+}
+
+void CSS::ReduceCou()						//查询课程被选情况
+{
+	Student stu;
+	string Courseid;
+	Course C;
+	cout << "请输入课程号：";
+	cin >> Courseid;
+	for (int j = 1; j <= Courses.GetLength(); j++)	
+	{
+		Courses.GetElem(j, C);
+		if (C.id == Courseid)
+		{
+			int ex = 1;
+			while (ex < 0)
+			{
+				cout << "请输入要减容的量(非负整数)：";
+				cin >> ex;
+			}
+			ex = -ex;
+			while (C.size + ex > C.maxsize)	//抽空
+			{
+				C.maxsize -= 1;
+				ex += 1;
+			}
+			for (int j = 1; ex <= 0 && j <= Courses.GetLength(); j++)	//踢人
+			{
+				Courses.GetElem(j, C);
+				if (C.id == Courseid)
+				{
+					CrossNode<bool>* sn;
+					int count = 0;
+					for (sn = Selection.colHead[j - 1]; sn != NULL; sn = sn->down)	//问题头
+					{
+						if (count > C.maxsize + ex)
+						{
+							Students.GetElem(sn->triElem.row + 1, stu);
+							Selection.SetElem(sn->triElem.row, j - 1, 0);
+							stu.num--;
+							C.size--;
+						}
+						count++;
+					}		//问题尾
+					break;
+				}
+			}
+			C.maxsize += ex;
+			Courses.SetElem(j, C);
+			cout << "减容成功" << endl;
+			return;
+		}
+	}
+	cout << "没这门课" << endl;
 }
 
 Status CSS::FindCou_Admin() const						//查询课程被选情况
@@ -475,3 +533,4 @@ void CSS::TraverseCou() const
 			<< setw(30) << C.name << setw(1) << C.size << '/' << C.maxsize << endl;
 	}
 }
+
