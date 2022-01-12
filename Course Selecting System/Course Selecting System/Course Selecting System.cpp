@@ -508,6 +508,13 @@ void CSS::UnChooseCou(const int& id, Student& s)
 			Courses.GetElem(j, C);
 			if (C.id == Courseid)
 			{
+				bool flag;
+				Selection.GetElem(id - 1, j - 1, flag);
+				if(!flag)
+				{
+					cout << "未选此课程" << endl;
+					return;
+				}
 				Selection.SetElem(id - 1, j - 1, 0);
 				s.num--;
 				C.size--;
